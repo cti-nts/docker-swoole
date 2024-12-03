@@ -3,12 +3,12 @@
 #
 status: "released"
 php:
-  - "8.0.28"
-  - "8.1.18"
-  - "8.2.5"
+  - "8.0"
+  - "8.1"
+  - "8.2"
 image:
   composer:
-    version: "2.5.5"
+    version: "2.8"
   php_extensions:
     redis:
       version: "5.3.7"

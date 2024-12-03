@@ -1,21 +1,20 @@
-FROM php:8.1.18-cli
+FROM php:8.1-cli
 
-ENV DEBIAN_FRONTEND noninteractive
-ENV TERM            xterm-color
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TERM=xterm-color
 
 ARG DEV_MODE
-ENV DEV_MODE $DEV_MODE
+ENV DEV_MODE=$DEV_MODE
 
+COPY --from=composer:2.8 /usr/bin/composer /usr/bin/
 COPY ./rootfilesystem/ /
 
 RUN \
     set -ex && \
-    curl -sfL https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer && \
-    chmod +x /usr/bin/composer                                                                     && \
-    composer self-update 2.5.5                                                    && \
-    apt-get update              && \
-    apt-get install -y             \
+    apt-get update  && \
+    apt-get install -y \
         libcurl4-openssl-dev       \
+        libbrotli-dev              \
         libpq-dev                  \
         libssl-dev                 \
         supervisor                 \
@@ -31,10 +30,11 @@ RUN \
     install-swoole.sh 5.0.3 \
         --enable-mysqlnd      \
         --enable-swoole-pgsql \
+        --enable-brotli       \
         --enable-openssl      \
         --enable-sockets --enable-swoole-curl && \
     mkdir -p /var/log/supervisor && \
-    rm -rf /var/lib/apt/lists/* $HOME/.composer/*-old.phar /usr/bin/qemu-*-static
+    rm -rf /var/lib/apt/lists/* /usr/bin/qemu-*-static
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD []
