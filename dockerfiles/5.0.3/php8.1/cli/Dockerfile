@@ -17,16 +17,23 @@ RUN \
         libbrotli-dev              \
         libpq-dev                  \
         libssl-dev                 \
+        libzip-dev                 \
+        libicu-dev                 \
+        libpq-dev                  \
         supervisor                 \
         unzip                      \
+        zip                        \
         zlib1g-dev                 \
         --no-install-recommends && \
+# Enable pgsql
+    docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql && \
+    docker-php-ext-install -j$(nproc) \
 # PHP extension pdo_mysql is included since 4.8.12+ and 5.0.1+.
-    docker-php-ext-install pdo_mysql && \
-    pecl channel-update pecl.php.net && \
-    pecl install --configureoptions 'enable-redis-igbinary="no" enable-redis-lzf="no" enable-redis-zstd="no"' redis-5.3.7 && \
-# PHP extension Redis is included since 4.8.12+ and 5.0.1+.
-    docker-php-ext-enable redis && \
+            zip \
+            intl \
+            pgsql \
+            pdo_mysql \
+            pdo_pgsql && \
     install-swoole.sh 5.0.3 \
         --enable-mysqlnd      \
         --enable-swoole-pgsql \

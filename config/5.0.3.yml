@@ -9,8 +9,14 @@ php:
 image:
   composer:
     version: "2.8"
-  php_extensions:
-    redis:
-      version: "5.3.7"
-      configureoptions: "enable-redis-igbinary=\"no\" enable-redis-lzf=\"no\" enable-redis-zstd=\"no\""
-      enabled: true
+  # php_extensions:
+  #   redis:
+  #     version: "5.3.7"
+  #     configureoptions: "enable-redis-igbinary=\"no\" enable-redis-lzf=\"no\" enable-redis-zstd=\"no\""
+  #     enabled: true
+  docker_extensions:
+    - zip
+    - intl
+    - pgsql
+    - pdo_mysql
+    - pdo_pgsql
